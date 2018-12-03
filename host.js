@@ -8,4 +8,8 @@ host.use(cors());
 
 host.use(express.static("pics"));
 
+host.get('/', function(req, res){
+  res.sendFile(__dirname + '/FHL.html');
+});
+
 host.listen(4000, () => console.log("FHL secret base on port 4000!"));
