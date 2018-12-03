@@ -85,19 +85,19 @@
       }
 
       #markerFeng {
-        background-image: url("http://localhost:4000/markerFeng.jpg");
+        background-image: url("/markerFeng.jpg");
       }
 
       #markerHao {
-        background-image: url("http://localhost:4000/markerHao.jpg");
+        background-image: url("/markerHao.jpg");
       }
 
       #markerLu {
-        background-image: url("http://localhost:4000/markerLu.jpg");
+        background-image: url("/markerLu.jpg");
       }
 
       #markerWuWu {
-        background-image: url("http://localhost:4000/markerWuWu.png");
+        background-image: url("/markerWuWu.png");
       }
 
       .mapboxgl-popup {
@@ -124,7 +124,8 @@
 
       <div id="hao" class="person">
         <img id="haoImage" class="image" />
-        <img id="wuWuImage" class="image" /> <img id="jieImage" class="image" />
+        <img id="wuWuImage" class="image" />
+        <img id="jieImage" class="image" />
       </div>
 
       <div id="lu" class="person"><img id="luImage" class="image" /></div>
@@ -136,28 +137,47 @@
 
     <script>
       let fengImage = document.getElementById("fengImage");
-      fengImage.src = "http://localhost:4000/fengImage.jpg";
+      fengImage.src = "/fengImage.jpg";
+
       let haoImage = document.getElementById("haoImage");
-      haoImage.src = "http://localhost:4000/haoImage.jpg";
+      haoImage.src = "/haoImage.jpg";
+
       let wuWuImage = document.getElementById("wuWuImage");
-      wuWuImage.src = "http://localhost:4000/wuWuImage.png";
+      wuWuImage.src = "/wuWuImage.png";
       wuWuImage.style.display = "none";
+
       let jieImage = document.getElementById("jieImage");
-      jieImage.src = "http://localhost:4000/jieImage.jpg";
+      jieImage.src = "/jieImage.jpg";
       jieImage.style.display = "none";
+
       let hao = document.getElementById("hao");
-      haoImage.addEventListener("click", function() {
-        haoImage.style.display = "none";
-        // wuWuImage.style.display = "initial";
-        jieImage.style.display = "initial";
-      });
-      jieImage.addEventListener("click", function() {
-        haoImage.style.display = "initial";
-        // wuWuImage.style.display = "initial";
-        jieImage.style.display = "none";
-      });
+
+      var loopOn = false;
+
+      function loopThrough() {
+        if (!loopOn) {
+            let loopID = setInterval(function(){
+                if (haoImage.style.display == "none"){
+                    haoImage.style.display = "initial";
+                } else {
+                    haoImage.style.display = "none";
+                }
+
+                if (jieImage.style.display == "none"){
+                    jieImage.style.display = "initial";
+                } else {
+                    jieImage.style.display = "none";
+                }
+              }, 100);
+        } else {
+            clearInterval(loopID);
+        }
+      }
+
+      hao.addEventListener("click", loopThrough);
+
       let luImage = document.getElementById("luImage");
-      luImage.src = "http://localhost:4000/luImage.jpg";
+      luImage.src = "/luImage.jpg";
 
       mapboxgl.accessToken =
         "pk.eyJ1IjoidGFuZ2x1MjciLCJhIjoiY2pvZ2w3OGg0MGIzeDNxcnhjbzNycmZqZiJ9.qYB732Ts7CRJOsH9bNQ68Q";
