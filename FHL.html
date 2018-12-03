@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>秘密基地</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+    />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      #people {
+        position: absolute;
+        width: 99%;
+        height: 500px;
+      }
+
+      .person {
+        position: absolute;
+        width: 32%;
+        height: 95%;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+
+      #feng {
+        left: 1%;
+      }
+
+      #hao {
+        left: 34%;
+      }
+
+      #wuWuImage {
+        z-index: 2;
+      }
+
+      #lu {
+        left: 67%;
+      }
+
+      .image {
+        position: absolute;
+        /* max-height: auto; */
+        width: 100%;
+        height: auto;
+        /* top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); */
+      }
+
+      .image:hover {
+        cursor: pointer;
+        transform: scale(1.2, 1.2);
+      }
+
+      #map {
+        position: absolute;
+        top: 550px;
+        width: 60%;
+        height: 500px;
+        left: 50%;
+        transform: translate(-50%);
+      }
+
+      .marker {
+        background-size: cover;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      #markerFeng {
+        background-image: url("http://localhost:4000/markerFeng.jpg");
+      }
+
+      #markerHao {
+        background-image: url("http://localhost:4000/markerHao.jpg");
+      }
+
+      #markerLu {
+        background-image: url("http://localhost:4000/markerLu.jpg");
+      }
+
+      #markerWuWu {
+        background-image: url("http://localhost:4000/markerWuWu.png");
+      }
+
+      .mapboxgl-popup {
+        max-width: 200px;
+      }
+
+      .mapboxgl-popup-content {
+        text-align: center;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      #bottom {
+        position: absolute;
+        top: 1050px;
+        height: 100px;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="people">
+      <div id="feng" class="person"><img id="fengImage" class="image" /></div>
+
+      <div id="hao" class="person">
+        <img id="haoImage" class="image" />
+        <img id="wuWuImage" class="image" /> <img id="jieImage" class="image" />
+      </div>
+
+      <div id="lu" class="person"><img id="luImage" class="image" /></div>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="bottom"></div>
+
+    <script>
+      let fengImage = document.getElementById("fengImage");
+      fengImage.src = "http://localhost:4000/fengImage.jpg";
+      let haoImage = document.getElementById("haoImage");
+      haoImage.src = "http://localhost:4000/haoImage.jpg";
+      let wuWuImage = document.getElementById("wuWuImage");
+      wuWuImage.src = "http://localhost:4000/wuWuImage.png";
+      wuWuImage.style.display = "none";
+      let jieImage = document.getElementById("jieImage");
+      jieImage.src = "http://localhost:4000/jieImage.jpg";
+      jieImage.style.display = "none";
+      let hao = document.getElementById("hao");
+      haoImage.addEventListener("click", function() {
+        haoImage.style.display = "none";
+        // wuWuImage.style.display = "initial";
+        jieImage.style.display = "initial";
+      });
+      jieImage.addEventListener("click", function() {
+        haoImage.style.display = "initial";
+        // wuWuImage.style.display = "initial";
+        jieImage.style.display = "none";
+      });
+      let luImage = document.getElementById("luImage");
+      luImage.src = "http://localhost:4000/luImage.jpg";
+
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoidGFuZ2x1MjciLCJhIjoiY2pvZ2w3OGg0MGIzeDNxcnhjbzNycmZqZiJ9.qYB732Ts7CRJOsH9bNQ68Q";
+
+      let map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/dark-v9",
+        center: [-96, 37.8],
+        zoom: 3
+      });
+
+      let geojson = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [103.8198, 1.3521]
+            },
+            properties: {
+              title: "Feng",
+              description: "markerFeng"
+            }
+          },
+          {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [-83.743, 42.2808]
+            },
+            properties: {
+              title: "Hao",
+              description: "markerHao"
+            }
+          },
+          {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [-95.3698, 29.7604]
+            },
+            properties: {
+              title: "Lu",
+              description: "markerLu"
+            }
+          },
+          {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [121.4581, 31.2222]
+            },
+            properties: {
+              title: "WuWu",
+              description: "markerWuWu",
+              relationship: "Hao"
+            }
+          }
+        ]
+      };
+
+      let haoGirls = [];
+      geojson.features.forEach(function(marker) {
+        // create a HTML element for each feature
+        let el = document.createElement("div");
+        el.className = "marker";
+        el.id = marker["properties"]["description"];
+        if (marker["properties"]["relationship"] == "Hao") {
+          el.style.display = "none";
+          haoGirls.push(el.id);
+        }
+        if (marker["properties"]["title"] == "Hao") {
+          el.addEventListener("click", function() {
+            console.log("called");
+            for (let girl in haoGirls) {
+              console.log(girl);
+              console.log(document.getElementById(haoGirls[girl]));
+              document.getElementById(haoGirls[girl]).style.display = "initial";
+            }
+            map.flyTo({
+              center: [121.4581, 31.2222]
+            });
+          });
+        }
+
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .addTo(map);
+      });
+    </script>
+  </body>
+</html>
